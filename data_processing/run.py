@@ -59,7 +59,7 @@ def run(dry_run: bool, api_key: str, config: str=None):
              common,
 
         )
-    inputs = {"order_details_path": "data/order_details.csv", "orders_path": "data/orders_old.csv"}
+    inputs = {"order_details_path": "data/order_details.csv", "orders_path": "data/orders_new.csv"}
     result = dr.execute(['orders_by_order_aggregates'], inputs=inputs)
     
     print(result)
