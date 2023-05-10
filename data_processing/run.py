@@ -38,8 +38,6 @@ def run(dry_run: bool, api_key: str, config: str=None):
     # Load the configuration file (optional). It is used to shape the DAG.
     config_loaded = _load_config(config)
     dag_name = f"data_processing_dag"
-    # if config is not None:
-    #    dag_name += f"_{config}"
     if api_key is None:
         api_key = os.environ.get("DAGWORKS_API_KEY", None)
     if not dry_run:
@@ -51,7 +49,7 @@ def run(dry_run: bool, api_key: str, config: str=None):
             api_key=api_key,
             project_id=32,
             dag_name=dag_name,
-            tags={"template" : "data_processing", "TODO" : "add_more_tags_to_find_your_run_later"},
+            tags={"template": "data_processing", "iteration" : "1"},
 
         )
     else:
