@@ -46,9 +46,10 @@ orders_schema = pa.DataFrameSchema(
 )
 
 
+@config.when(schema_version="old")
 @check_output(schema=orders_schema, importance="fail")
 @load_from.csv(path=source("orders_path"), sep=",")
-def orders(df: pd.DataFrame) -> pd.DataFrame:
+def orders__old(df: pd.DataFrame) -> pd.DataFrame:
     df["order_date"] = pd.to_datetime(df["order_date"])
     df["order_list"] = df.apply(
         lambda x: [
@@ -64,4 +65,12 @@ def orders(df: pd.DataFrame) -> pd.DataFrame:
     df["product_name"] = df["order_list"].apply(lambda x: x.split("-")[0])
     df["quantity"] = df["order_list"].apply(lambda x: int(x.split("-")[1]))
     del df["order_list"]
+    return df
+
+
+@config.when(schema_version="new")
+@check_output(schema=orders_schema, importance="fail")
+@load_from.csv(path=source("orders_path"), sep=",")
+def orders__new(df: pd.DataFrame) -> pd.DataFrame:
+    df["order_date"] = pd.to_datetime(df["order_date"])
     return df
