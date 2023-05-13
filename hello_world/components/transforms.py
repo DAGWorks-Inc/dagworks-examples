@@ -9,17 +9,17 @@ You can also play around with a very similar example on tryhamilton.dev.
 
 def spend(spend_path: str) -> pd.Series:
     """Function that loads the spend column from a CSV."""
-    return pd.read_csv(spend_path)["spend"]
+    return pd.read_csv(spend_path, index_col=0)["spend"]
 
 
 def signups(signups_path: str) -> pd.Series:
     """Function that loads the signups column from a CSV."""
-    return pd.read_csv(signups_path)["signups"]
+    return pd.read_csv(signups_path, index_col=0)["signups"]
 
 
-def avg_3wk_spend(spend: pd.Series) -> pd.Series:
-    """Rolling 3 week average spend."""
-    return spend.rolling(3).mean()
+# def avg_3wk_spend(spend: pd.Series) -> pd.Series:
+#     """Rolling 3 week average spend."""
+#     return spend.rolling(3).mean()
 
 
 def spend_per_signup(spend: pd.Series, signups: pd.Series) -> pd.Series:
