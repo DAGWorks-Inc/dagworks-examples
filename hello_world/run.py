@@ -48,7 +48,16 @@ def run(dry_run: bool, api_key: str, config: str=None):
             api_key=api_key,
             project_id=2,
             dag_name=dag_name,
-            tags={"template" : "hello_world", "TODO" : "add_more_tags_to_find_your_run_later"},
+            #  - change_from_previous: one or more of -> code,config,data,None.
+            #  - code_change: function_name(s)
+            #  - config_change: config_name(s)
+            #  - data_change: data_name(s)a
+            tags={
+                "change_from_previous": "code, output",
+                "code_change": "added_function",
+                "config_change": "None",
+                "data_change": "None",
+            },
 
         )
     else:
@@ -57,8 +66,10 @@ def run(dry_run: bool, api_key: str, config: str=None):
              transforms,
 
         )
-    inputs = {"signups_path": "data/signups.csv", "spend_path": "data/spend.csv"}
-    result = dr.execute(['spend', 'signups', 'avg_3wk_spend', 'spend_per_signup', 'spend_mean', 'spend_zero_mean', 'spend_std_dev', 'spend_zero_mean_unit_variance'], inputs=inputs)
+    inputs = {"signups_path": "data/signups_bad.csv", "spend_path": "data/spend.csv"}
+    result = dr.execute(['spend', 'signups',
+                         'avg_3wk_spend',
+                         'spend_per_signup', 'spend_mean', 'spend_zero_mean', 'spend_std_dev', 'spend_zero_mean_unit_variance'], inputs=inputs)
     
     print(result)
 
