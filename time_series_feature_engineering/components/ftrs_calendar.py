@@ -34,6 +34,6 @@ def year_progress_pct(date: pd.Series) -> pd.Series:
     return date.dt.dayofyear / 365.25
 
 
-# @tag(stage="production")
-# def month_progress_pct(date: pd.Series) -> pd.Series:
-#     return date.dt.day / date.dt.days_in_month
+@tag(stage="staging")
+def month_progress_pct(date: pd.Series) -> pd.Series:
+    return date.dt.day / date.dt.days_in_month

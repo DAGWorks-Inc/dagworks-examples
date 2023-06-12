@@ -54,7 +54,7 @@ def run(dry_run: bool, api_key: str, config: str=None):
             api_key=api_key,
             project_id=31,
             dag_name=dag_name,
-            tags={"change_from_previous": "None"},
+            tags={"change_from_previous": "feature set"},
         )
     else:
         dr = h_driver.Driver(
