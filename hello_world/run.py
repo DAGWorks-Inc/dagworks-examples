@@ -66,7 +66,7 @@ def run(dry_run: bool, api_key: str, config: str=None):
              transforms,
 
         )
-    inputs = {"signups_path": "data/signups_bad.csv", "spend_path": "data/spend.csv"}
+    inputs = {"signups_path": "data/signups.csv", "spend_path": "data/spend.csv"}
     result = dr.execute(['spend', 'signups',
                          'avg_3wk_spend',
                          'spend_per_signup', 'spend_mean', 'spend_zero_mean', 'spend_std_dev', 'spend_zero_mean_unit_variance'], inputs=inputs)
