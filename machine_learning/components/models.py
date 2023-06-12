@@ -12,7 +12,7 @@ except ImportError:
 @subdag(
     model_fitting,
     inputs={
-        "data_set": source("data_set_v1"),
+        "data_set": source("data_set_v2"),
     },
     config={"clf": "svm", "shuffle_train_test_split": True, "test_size_fraction": 0.2},
 )
@@ -29,7 +29,7 @@ def svm_model(
 @subdag(
     model_fitting,
     inputs={
-        "data_set": source("data_set_v1"),
+        "data_set": source("data_set_v2"),
     },
     config={
         "clf": "logistic",
