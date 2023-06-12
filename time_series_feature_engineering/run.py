@@ -38,7 +38,7 @@ def run(dry_run: bool, api_key: str, config: str=None):
     """
     # Load the configuration file (optional). It is used to shape the DAG.
     config_loaded = _load_config(config)
-    dag_name = f"time_series_feature_engineering_dag"
+    dag_name = f"ts_feature_engineering_dag"
     # if config is not None:
     #    dag_name += f"_{config}"
     if api_key is None:
@@ -54,8 +54,7 @@ def run(dry_run: bool, api_key: str, config: str=None):
             api_key=api_key,
             project_id=31,
             dag_name=dag_name,
-            tags={"template" : "time_series_feature_engineering", "TODO" : "add_more_tags_to_find_your_run_later"},
-
+            tags={"change_from_previous": "None"},
         )
     else:
         dr = h_driver.Driver(

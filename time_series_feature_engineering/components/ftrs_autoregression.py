@@ -11,11 +11,11 @@ from pandas.core.groupby import DataFrameGroupBy
         ("lag_sales_2", ""): 2,
         ("lag_sales_3", ""): 3,
         ("lag_sales_4", ""): 4,
-        ("lag_sales_5", ""): 5,
-        ("lag_sales_6", ""): 6,
-        ("lag_sales_7", ""): 7,
-        ("lag_sales_29", ""): 29,
-        ("lag_sales_30", ""): 30,
+        # ("lag_sales_5", ""): 5,
+        # ("lag_sales_6", ""): 6,
+        # ("lag_sales_7", ""): 7,
+        # ("lag_sales_29", ""): 29,
+        # ("lag_sales_30", ""): 30,
     },
 )
 def lag_sales_n(grp_date_store_item: DataFrameGroupBy, output_idx: pd.Index, n: int) -> pd.Series:
