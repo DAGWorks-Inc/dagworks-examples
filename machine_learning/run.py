@@ -54,7 +54,7 @@ def run(dry_run: bool, api_key: str, config: str=None):
             api_key=api_key,
             project_id=29,
             dag_name=dag_name,
-            tags={"change_from_previous": "feature set"},
+            tags={"change_from_previous": "hyperparameter inputs"},
             adapter=h_base.SimplePythonGraphAdapter(h_base.DictResult()),
         )
     else:
@@ -66,7 +66,7 @@ def run(dry_run: bool, api_key: str, config: str=None):
              models,
              adapter=h_base.SimplePythonGraphAdapter(h_base.DictResult()),
         )
-    inputs = {}
+    inputs = {"gamma": 0.01, "penalty": "l1", "solver": "liblinear"}
     result = dr.execute(['best_model'], inputs=inputs)
     
     print(result)

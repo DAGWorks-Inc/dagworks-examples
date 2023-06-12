@@ -20,13 +20,14 @@ def prefit_clf__svm(gamma: float = 0.001) -> base.ClassifierMixin:
 
 
 @function_modifiers.config.when(clf="logistic")
-def prefit_clf__logreg(penalty: str) -> base.ClassifierMixin:
+def prefit_clf__logreg(penalty: str, solver: str = "lbfgs") -> base.ClassifierMixin:
     """Returns an unfitted Logistic Regression classifier object.
 
     :param penalty: One of {'l1', 'l2', 'elasticnet', None}.
+    :param solver: Solver to use. Not all handle all penalties.
     :return:
     """
-    return linear_model.LogisticRegression(penalty)
+    return linear_model.LogisticRegression(penalty, solver=solver)
 
 
 @function_modifiers.extract_fields(

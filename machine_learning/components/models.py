@@ -35,7 +35,6 @@ def svm_model(
         "clf": "logistic",
         "shuffle_train_test_split": True,
         "test_size_fraction": 0.2,
-        "penalty": "l2",
     },
 )
 def lr_model(
