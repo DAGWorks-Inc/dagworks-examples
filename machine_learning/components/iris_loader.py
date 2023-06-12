@@ -6,10 +6,10 @@ from hamilton.function_modifiers import extract_columns
 from sklearn import datasets, utils
 
 RAW_COLUMN_NAMES = [
-    "sepal_length__cm_",
-    "sepal_width__cm_",
-    "petal_length__cm_",
-    "petal_width__cm_",
+    "sepal_length_cm",
+    "sepal_width_cm",
+    "petal_length_cm",
+    "petal_width_cm",
 ]
 
 

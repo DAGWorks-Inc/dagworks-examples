@@ -5,36 +5,36 @@ import numpy as np
 import pandas as pd
 from hamilton.function_modifiers import parameterize_sources
 
-RAW_FEATURES = ["sepal_length__cm_", "sepal_width__cm_", "petal_length__cm_", "petal_width__cm_"]
+RAW_FEATURES = ["sepal_length_cm", "sepal_width_cm", "petal_length_cm", "petal_width_cm"]
 
 # Here is more terse code that does the same thing as the below *_log functions.
 # Any `@parameterize*` decorator is just a less verbose way of defining functions that differ
 # slightly. We don't see anything wrong with verbose code - so we recommend err'ing on the side of
-# verbosity, but otherwise for this example show the terser code.
+# verbosity, but otherwise for this example, here is the terser code:
 # @parameterize_sources(**{f"{col}_log": {"col": col} for col in RAW_FEATURES})
 # def log_value(col: pd.Series) -> pd.Series:
 #     """Log value of {col}."""
 #     return np.log(col)
 
 
-def sepal_length__cm__log(sepal_length__cm_: pd.Series) -> pd.Series:
-    """Log value of sepal_length__cm_."""
-    return np.log(sepal_length__cm_)
-
-
-def sepal_width__cm__log(sepal_width__cm_: pd.Series) -> pd.Series:
-    """Log value of sepal_width__cm_."""
-    return np.log(sepal_width__cm_)
-
-
-def petal_length__cm__log(petal_length__cm_: pd.Series) -> pd.Series:
-    """Log value of petal_length__cm_."""
-    return np.log(petal_length__cm_)
-
-
-def petal_width__cm__log(petal_width__cm_: pd.Series) -> pd.Series:
-    """Log value of petal_width__cm_."""
-    return np.log(petal_width__cm_)
+# def sepal_length_cm_log(sepal_length_cm_: pd.Series) -> pd.Series:
+#     """Log value of sepal_length_cm_."""
+#     return np.log(sepal_length_cm_)
+#
+#
+# def sepal_width_cm_log(sepal_width_cm_: pd.Series) -> pd.Series:
+#     """Log value of sepal_width_cm_."""
+#     return np.log(sepal_width_cm_)
+#
+#
+# def petal_length_cm_log(petal_length_cm_: pd.Series) -> pd.Series:
+#     """Log value of petal_length_cm_."""
+#     return np.log(petal_length_cm_)
+#
+#
+# def petal_width_cm_log(petal_width_cm_: pd.Series) -> pd.Series:
+#     """Log value of petal_width_cm_."""
+#     return np.log(petal_width_cm_)
 
 
 @parameterize_sources(**{f"{col}_mean": {"col": col} for col in RAW_FEATURES})
@@ -61,46 +61,46 @@ def normalized_value(col: pd.Series, col_mean: float, col_std: float) -> pd.Seri
 
 
 def data_set_v1(
-    sepal_length__cm__normalized: pd.Series,
-    sepal_width__cm__normalized: pd.Series,
-    petal_length__cm__normalized: pd.Series,
-    petal_width__cm__normalized: pd.Series,
+    sepal_length_cm_normalized: pd.Series,
+    sepal_width_cm_normalized: pd.Series,
+    petal_length_cm_normalized: pd.Series,
+    petal_width_cm_normalized: pd.Series,
     target_class: pd.Series,
 ) -> pd.DataFrame:
     """Explicitly define the feature set we want to use."""
     return pd.DataFrame(
         {
-            "sepal_length__cm__normalized": sepal_length__cm__normalized,
-            "sepal_width__cm__normalized": sepal_width__cm__normalized,
-            "petal_length__cm__normalized": petal_length__cm__normalized,
-            "petal_width__cm__normalized": petal_width__cm__normalized,
+            "sepal_length_cm_normalized": sepal_length_cm_normalized,
+            "sepal_width_cm_normalized": sepal_width_cm_normalized,
+            "petal_length_cm_normalized": petal_length_cm_normalized,
+            "petal_width_cm_normalized": petal_width_cm_normalized,
             "target_class": target_class,
         }
     )
 
 
-def data_set_v2(
-    sepal_length__cm__normalized: pd.Series,
-    sepal_width__cm__normalized: pd.Series,
-    petal_length__cm__normalized: pd.Series,
-    petal_width__cm__normalized: pd.Series,
-    sepal_length__cm__log: pd.Series,
-    sepal_width__cm__log: pd.Series,
-    petal_length__cm__log: pd.Series,
-    petal_width__cm__log: pd.Series,
-    target_class: pd.Series,
-) -> pd.DataFrame:
-    """Explicitly define the feature set we want to use. This one adds `log` features."""
-    return pd.DataFrame(
-        {
-            "sepal_length__cm__normalized": sepal_length__cm__normalized,
-            "sepal_width__cm__normalized": sepal_width__cm__normalized,
-            "petal_length__cm__normalized": petal_length__cm__normalized,
-            "petal_width__cm__normalized": petal_width__cm__normalized,
-            "sepal_length__cm__log": sepal_length__cm__log,
-            "sepal_width__cm__log": sepal_width__cm__log,
-            "petal_length__cm__log": petal_length__cm__log,
-            "petal_width__cm__log": petal_width__cm__log,
-            "target_class": target_class,
-        }
-    )
+# def data_set_v2(
+#     sepal_length_cm_normalized: pd.Series,
+#     sepal_width_cm_normalized: pd.Series,
+#     petal_length_cm_normalized: pd.Series,
+#     petal_width_cm_normalized: pd.Series,
+#     sepal_length_cm_log: pd.Series,
+#     sepal_width_cm_log: pd.Series,
+#     petal_length_cm_log: pd.Series,
+#     petal_width_cm_log: pd.Series,
+#     target_class: pd.Series,
+# ) -> pd.DataFrame:
+#     """Explicitly define the feature set we want to use. This one adds `log` features."""
+#     return pd.DataFrame(
+#         {
+#             "sepal_length_cm_normalized": sepal_length_cm_normalized,
+#             "sepal_width_cm_normalized": sepal_width_cm_normalized,
+#             "petal_length_cm_normalized": petal_length_cm_normalized,
+#             "petal_width_cm_normalized": petal_width_cm_normalized,
+#             "sepal_length_cm_log": sepal_length_cm_log,
+#             "sepal_width_cm_log": sepal_width_cm_log,
+#             "petal_length_cm_log": petal_length_cm_log,
+#             "petal_width_cm_log": petal_width_cm_log,
+#             "target_class": target_class,
+#         }
+#     )

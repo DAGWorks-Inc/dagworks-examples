@@ -49,3 +49,12 @@ that uses Hamilton for feature engineering.
 To see this example - navigate [here](https://app.dagworks.io/dashboard/project/31).
 
 
+# Changes you can see in the examples
+
+1. Code changes. Structural ones that result in different DAGs, as well as the internals of a function.
+2. Execution failures.
+3. Data quality failures.
+4. Differences in data observability.
+5. Runs with different configuration.
+
+To see what was changed, see the tags for each version.

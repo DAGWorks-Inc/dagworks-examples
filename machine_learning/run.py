@@ -54,7 +54,7 @@ def run(dry_run: bool, api_key: str, config: str=None):
             api_key=api_key,
             project_id=29,
             dag_name=dag_name,
-            tags={"template" : "machine_learning", "TODO" : "add_more_tags_to_find_your_run_later"},
+            tags={"change_from_previous": "None"},
             adapter=h_base.SimplePythonGraphAdapter(h_base.DictResult()),
         )
     else:
