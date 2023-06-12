@@ -29,11 +29,11 @@ def day_of_week(date: pd.Series) -> pd.Series:
     return date.dt.dayofweek
 
 
-@tag(stage="staging")
+@tag(stage="production")
 def year_progress_pct(date: pd.Series) -> pd.Series:
     return date.dt.dayofyear / 365.25
 
 
-@tag(stage="staging")
+@tag(stage="production")
 def month_progress_pct(date: pd.Series) -> pd.Series:
     return date.dt.day / date.dt.days_in_month
