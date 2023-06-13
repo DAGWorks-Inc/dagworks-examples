@@ -66,7 +66,7 @@ def run(dry_run: bool, api_key: str, config: str=None):
              models,
              adapter=h_base.SimplePythonGraphAdapter(h_base.DictResult()),
         )
-    inputs = {"gamma": 0.01, "penalty": "l1", "solver": "liblinear"}
+    inputs = {"gamma": 0.001, "penalty": "l2", "solver": "lbfgs"}
     result = dr.execute(['best_model'], inputs=inputs)
     
     print(result)
