@@ -161,3 +161,6 @@ cython_debug/
 
 # don't store .env files
 */.env
+
+# don't share any config files -- theis is where you put your API keys
+.dagworks
