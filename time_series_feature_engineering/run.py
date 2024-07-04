@@ -2,7 +2,7 @@ import os
 import click
 import json
 
-from dagworks import driver as dw_driver
+from dagworks import adapters
 from hamilton import base as h_base
 from hamilton import driver as h_driver
 from components import data_loader
@@ -43,28 +43,29 @@ def run(dry_run: bool, api_key: str, config: str=None):
     #    dag_name += f"_{config}"
     if api_key is None:
         api_key = os.environ.get("DAGWORKS_API_KEY", None)
-    if not dry_run:
-        dr = dw_driver.Driver(
-            config_loaded,
-            data_loader,
-            ftrs_autoregression,
-            ftrs_calendar,
-            ftrs_common_prep,
+    adapter_list = [h_base.PandasDataFrameResult()]
+    if not dry_run and api_key is not None:
+        tracker = adapters.DAGWorksTracker(
             username="stefan@dagworks.io",
             api_key=api_key,
             project_id=31,
             dag_name=dag_name,
             tags={"change_from_previous": "outputs requested"},
         )
-    else:
-        dr = h_driver.Driver(
-             config_loaded,
-             data_loader,
-             ftrs_autoregression,
-             ftrs_calendar,
-             ftrs_common_prep,
-
+        adapter_list.append(tracker)
+    dr = (
+        h_driver.Builder()
+        .with_config(config_loaded)
+        .with_modules(
+            data_loader,
+            ftrs_autoregression,
+            ftrs_calendar,
+            ftrs_common_prep,
         )
+        .with_adapters(
+            *adapter_list
+        ).build()
+    )
     inputs = {"data_path": "data/train_sample.csv"}
     all_possible_outputs = dr.list_available_variables()
     desired_features = [

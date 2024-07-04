@@ -2,7 +2,7 @@ import os
 import click
 import json
 
-from dagworks import driver as dw_driver
+from dagworks import adapters
 from hamilton import base as h_base
 from hamilton import driver as h_driver
 from components import transforms
@@ -40,10 +40,10 @@ def run(dry_run: bool, api_key: str, config: str=None):
     #    dag_name += f"_{config}"
     if api_key is None:
         api_key = os.environ.get("DAGWORKS_API_KEY", None)
-    if not dry_run:
-        dr = dw_driver.Driver(
-            config_loaded,
-            transforms,
+
+    adapter_list = [h_base.PandasDataFrameResult()]
+    if not dry_run and api_key is not None:
+        tracker = adapters.DAGWorksTracker(
             username="stefan@dagworks.io",
             api_key=api_key,
             project_id=2,
@@ -58,14 +58,19 @@ def run(dry_run: bool, api_key: str, config: str=None):
                 "config_change": "None",
                 "data_change": "None",
             },
-
         )
-    else:
-        dr = h_driver.Driver(
-             config_loaded,
-             transforms,
+        adapter_list.append(tracker)
 
+    dr = (
+        h_driver.Builder()
+        .with_config(config_loaded)
+        .with_modules(
+            transforms,
         )
+        .with_adapters(
+            *adapter_list
+        ).build()
+    )
     inputs = {"signups_path": "data/signups.csv", "spend_path": "data/spend.csv"}
     result = dr.execute(['spend', 'signups',
                          'avg_3wk_spend',
