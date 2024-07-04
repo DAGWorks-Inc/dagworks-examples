@@ -2,8 +2,7 @@ import os
 import click
 import json
 
-from dagworks import driver as dw_driver
-from hamilton import base as h_base
+from dagworks import adapters
 from hamilton import driver as h_driver
 from components import iris_loader
 from components import feature_transforms
@@ -43,30 +42,30 @@ def run(dry_run: bool, api_key: str, config: str=None):
     #    dag_name += f"_{config}"
     if api_key is None:
         api_key = os.environ.get("DAGWORKS_API_KEY", None)
-    if not dry_run:
-        dr = dw_driver.Driver(
-            config_loaded,
-            iris_loader,
-            feature_transforms,
-            model_fitting,
-            models,
+    adapter_list = []
+    if not dry_run and api_key is not None:
+        tracker = adapters.DAGWorksTracker(
             username="stefan@dagworks.io",
             api_key=api_key,
             project_id=29,
             dag_name=dag_name,
             tags={"change_from_previous": "hyperparameter inputs"},
-            adapter=h_base.SimplePythonGraphAdapter(h_base.DictResult()),
         )
-    else:
-        dr = h_driver.Driver(
-             config_loaded,
-             iris_loader,
-             feature_transforms,
-             model_fitting,
-             models,
-             adapter=h_base.SimplePythonGraphAdapter(h_base.DictResult()),
+        adapter_list.append(tracker)
+    dr = (
+        h_driver.Builder()
+        .with_config(config_loaded)
+        .with_modules(
+            iris_loader,
+            feature_transforms,
+            model_fitting,
+            models,
         )
-    inputs = {"gamma": 0.001, "penalty": "l2", "solver": "lbfgs"}
+        .with_adapters(
+            *adapter_list
+        ).build()
+    )
+    inputs = {"gamma": 0.001, "penalty": "l1", "solver": "liblinear"}
     result = dr.execute(['best_model'], inputs=inputs)
     
     print(result)

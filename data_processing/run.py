@@ -2,9 +2,9 @@ import os
 import click
 import json
 
-from dagworks import driver as dw_driver
-from hamilton import base as h_base
+from dagworks import adapters
 from hamilton import driver as h_driver
+from hamilton import base
 from components import data_loader
 from components import common
 
@@ -40,25 +40,27 @@ def run(dry_run: bool, api_key: str, config: str=None):
     dag_name = f"data_processing_dag"
     if api_key is None:
         api_key = os.environ.get("DAGWORKS_API_KEY", None)
-    if not dry_run:
-        dr = dw_driver.Driver(
-            config_loaded,
-            data_loader,
-            common,
+    adapter_list = [base.PandasDataFrameResult()]
+    if not dry_run and api_key is not None:
+        tracker = adapters.DAGWorksTracker(
             username="stefan@dagworks.io",
             api_key=api_key,
             project_id=32,
             dag_name=dag_name,
-            tags={"template": "data_processing", "iteration" : "1"},
-
+            tags={"template": "data_processing", "iteration": "1"},
         )
-    else:
-        dr = h_driver.Driver(
-             config_loaded,
-             data_loader,
-             common,
-
+        adapter_list.append(tracker)
+    dr = (
+        h_driver.Builder()
+        .with_config(config_loaded)
+        .with_modules(
+            data_loader,
+            common,
         )
+        .with_adapters(
+            *adapter_list
+        ).build()
+    )
     inputs = {"order_details_path": "data/order_details.csv", "orders_path": "data/orders_new.csv"}
     result = dr.execute(['orders_by_order_aggregates'], inputs=inputs)
     
